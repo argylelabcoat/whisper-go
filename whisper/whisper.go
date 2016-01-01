@@ -281,6 +281,7 @@ type CreateOptions struct {
 func DefaultCreateOptions() CreateOptions {
 	return CreateOptions{DefaultXFilesFactor, DefaultAggregationMethod, false}
 }
+
 // headerSize calculates the size of a header with n archives
 func headerSize(n int) uint32 {
 	return metadataSize + (archiveInfoSize * uint32(n))
@@ -906,4 +907,13 @@ func aggregate(aggregationMethod AggregationMethod, points []Point) (point Point
 		err = errors.New("unknown aggregation function")
 	}
 	return
+}
+func (w *Whisper) GetOldest() (uint32, error) {
+	info := w.Header.Archives[0]
+	point, err := w.readPoint(info.Offset)
+	if err != nil {
+		return 0, err
+	}
+	fmt.Println(point)
+	return point.Timestamp, nil
 }
