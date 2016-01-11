@@ -914,6 +914,5 @@ func (w *Whisper) GetOldest() (uint32, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println(point)
 	return point.Timestamp, nil
 }
